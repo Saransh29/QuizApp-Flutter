@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import './question.dart';
-import './answer.dart';
+import './quiz.dart';
+import './result.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,9 +19,67 @@ class MyApp extends StatefulWidget {
 // be used inside this main.dart file
 
 class _MyAppState extends State<MyApp> {
-  var _questionIndex = 0;
+  static const _questions = [
+    // or final question  = const can also be used
+    {
+      'questionText': 'What\'s your favorite color?',
+      'answers': [
+        {'text': 'Black', 'score': 10},
+        {'text': 'Green', 'score': 5},
+        {'text': 'Blue', 'score': 1},
+        {'text': 'Cyan', 'score': 3}
+      ]
+    },
+    {
+      'questionText': "What's your favorite animal?",
+      'answers': [
+        {'text': 'Cat', 'score': 10},
+        {'text': 'Dog', 'score': 5},
+        {'text': 'Panda', 'score': 2},
+        {'text': 'Lion', 'score': 1}
+      ]
+    },
+    {
+      'questionText': 'What\'s your favorite city?',
+      'answers': [
+        {'text': 'LA', 'score': 10},
+        {'text': 'Dubai', 'score': 5},
+        {'text': 'Italy', 'score': 2},
+        {'text': 'Monaco', 'score': 1}
+      ]
+    },
+    {
+      'questionText': 'What\'s your favorite car?',
+      'answers': [
+        {'text': 'Aston Martin', 'score': 10},
+        {'text': 'Dubai', 'score': 5},
+        {'text': 'Mclaren', 'score': 2},
+        {'text': 'Ferrari', 'score': 1}
+      ]
+    },
+  ]; //lists are created with [] brackets
+  //Maps are created with {} brackets
 
-  void _answerQuestion() {
+  var _questionIndex = 0;
+  var _totalscore = 0;
+
+  void _resetQuiz() {
+    setState(() {
+      _questionIndex = 0;
+      _totalscore = 0;
+    });
+  }
+
+  void _answerQuestion(int score) {
+    // bool aBool = true;
+    // aBool = false;
+
+    _totalscore += score;
+
+    if (_questionIndex < _questions.length) {
+      print('We have more questions');
+    } else
+      print("no more questions");
     setState(() {
       _questionIndex++;
     });
@@ -32,42 +90,18 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     //final is run time constant = use when you dont know what value will be at compile time
     //const in compile time constant = use if sure value isn't changing when running code
-    final questions = [
-      {
-        'questionText': 'What\'s your favorite color?',
-        'answers': ['Black', 'Red', 'Blue', 'Cyan']
-      },
-      {
-        'questionText': "What's your favorite animal?",
-        'answers': ['Cat', 'Dog', 'Panda', 'lion']
-      },
-      {
-        'questionText': 'What\'s your favorite city?',
-        'answers': ['Monaco', 'Paris', 'Dubai', 'Italy']
-      },
-      {
-        'questionText': 'What\'s your favorite car?',
-        'answers': ['Ferrari', 'Aston Martin', 'Lamborghini', 'Mclaren']
-      },
-    ]; //lists are created with [] brackets
-    //Maps are created with {} brackets
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text("My first app"),
+          title: Text("QuizApp-Flutter"),
         ),
-        body: Column(
-          children: [
-            Question(
-              questions[_questionIndex]
-                  ['questionText'], //questions.elementAt(0)
-            ), //... is spread operator ...[a, b, c] is just a, b, c
-            ...(questions[_questionIndex]['answers'] as List<String>)
-                .map((answer) {
-              return Answer(_answerQuestion, answer);
-            }).toList()
-          ],
-        ),
+        body: _questionIndex < _questions.length
+            ? Quiz(
+                answerQuestion: _answerQuestion,
+                questionIndex: _questionIndex,
+                questions: _questions)
+            : Result(_totalscore,_resetQuiz),
       ),
     );
   }
