@@ -1,15 +1,16 @@
-# flutter_1
+# QuizApp=Flutter
 
-A new Flutter project.
+My First Flutter project.
 
-## Getting Started
+##
+-Can change questions and answers.
+-supports variable and negative marking
+-Can Display grades based on total score
+-Reset Button implemented
 
-This project is a starting point for a Flutter application.
+resources used:
+- Udemy maximilian flutter course
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
